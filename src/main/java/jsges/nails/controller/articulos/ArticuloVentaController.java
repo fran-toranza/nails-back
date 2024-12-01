@@ -1,9 +1,7 @@
 package jsges.nails.controller.articulos;
 
 import jsges.nails.DTO.articulos.ArticuloVentaDTO;
-import jsges.nails.DTO.articulos.LineaDTO;
 import jsges.nails.domain.articulos.ArticuloVenta;
-import jsges.nails.domain.articulos.Linea;
 import jsges.nails.excepcion.RecursoNoEncontradoExcepcion;
 import jsges.nails.service.articulos.IArticuloVentaService;
 import jsges.nails.service.articulos.ILineaService;
@@ -17,9 +15,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import static java.lang.Integer.parseInt;
-
 @RestController
 @RequestMapping(value="${path_mapping}")
 @CrossOrigin(value="${path_cross}")

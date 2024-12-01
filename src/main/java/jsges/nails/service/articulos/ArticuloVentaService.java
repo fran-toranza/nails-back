@@ -17,14 +17,19 @@ import java.util.List;
 
 @Service
 public class ArticuloVentaService implements IArticuloVentaService{
-    @Autowired
-    private ArticuloVentaRepository modelRepository;
+
+    private final ArticuloVentaRepository modelRepository;
+//constructor de la clase ArticuloVenta
+    public ArticuloVentaService(ArticuloVentaRepository modelRepository) {
+        this.modelRepository = modelRepository;
+    }
     private static final Logger logger = LoggerFactory.getLogger(ArticuloVentaService.class);
 
 
     @Override
     public List<ArticuloVenta> listar() {
-        return modelRepository.buscarNoEliminados();
+        List<ArticuloVenta> result = modelRepository.buscarNoEliminados();
+        return result != null ? result : Collections.emptyList();
     }
 
     @Override

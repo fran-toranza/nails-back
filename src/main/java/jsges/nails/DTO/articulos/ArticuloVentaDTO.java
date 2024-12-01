@@ -5,7 +5,7 @@ import jsges.nails.domain.articulos.ArticuloVenta;
 
 public class ArticuloVentaDTO extends TipoObjetoDTO {
 
-    public Integer id;
+    private Integer id;
     public String denominacion;
     public Integer linea;
 
