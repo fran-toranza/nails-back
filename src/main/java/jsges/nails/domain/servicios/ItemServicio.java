@@ -16,10 +16,10 @@ public class ItemServicio {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    int estado;
+    private int estado;
 
     @Column(columnDefinition = "TEXT")
-    String observacion;
+    private String observacion;
 
     @ManyToOne(cascade = CascadeType.ALL)
     private TipoServicio tipoServicio;

@@ -8,35 +8,30 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
-
 @Entity
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 @ToString
 public class Linea extends TipoObjeto {
 
-    //@Id
-    //@GeneratedValue(strategy = GenerationType.IDENTITY)
-    //private Integer id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer id;
 
-    //@Column(columnDefinition = "TEXT")
-    //String denominacion;
-    //int estado;
+    @Lob
+    private String denominacion;
 
-    //@Column(columnDefinition = "TEXT")
-    //String observacion;
+    private int estado;
 
-    public Linea() {
-        // Constructor por defecto necesario para JPA
-    }
+    @Lob
+    private String observacion;
 
     public Linea(String nombre) {
-
-        this.setDenominacion(nombre);
+        this.denominacion = nombre;
     }
 
     public Linea(LineaDTO model) {
-        this.setDenominacion(model.denominacion);
-
+        this.denominacion = model.denominacion;
     }
 }
-

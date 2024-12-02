@@ -2,52 +2,45 @@ package jsges.nails.domain;
 
 import jakarta.persistence.*;
 import lombok.Data;
-
+import lombok.NoArgsConstructor;
 import java.io.Serializable;
 import java.util.Objects;
 
 @Entity
 @Data
-@Inheritance(strategy= InheritanceType.TABLE_PER_CLASS)
+@NoArgsConstructor
+@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 public class TipoObjeto implements Serializable {
 
-        @Id
-        @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "tipo_objeto_id_seq")
-        @SequenceGenerator(name = "tipo_objeto_id_seq", sequenceName = "tipo_objeto_id_seq", allocationSize = 1)
-        private Integer id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "tipo_objeto_id_seq")
+    @SequenceGenerator(name = "tipo_objeto_id_seq", sequenceName = "tipo_objeto_id_seq", allocationSize = 1)
+    private Integer id;
 
-        private int codigo;
+    private int codigo;
 
-        @Column(columnDefinition = "TEXT")
-        private String denominacion;
-        private int estado;
+    @Lob
+    private String denominacion;
 
-        @Column(columnDefinition = "TEXT")
-        private String detalle;
+    private int estado;
 
+    @Lob
+    private String detalle;
 
-        public void asEliminado() {
-            this.setEstado(1);
-        }
+    public void markAsEliminado() {
+        this.estado = 1;
+    }
 
-        @Override
-        public int hashCode() {
-            int hash = 7;
-            return hash;
-        }
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
+    }
 
-        @Override
-        public boolean equals(Object obj) {
-            if (this == obj) {
-                return true;
-            }
-            if (obj == null) {
-                return false;
-            }
-            if (getClass() != obj.getClass()) {
-                return false;
-            }
-            final TipoObjeto other = (TipoObjeto) obj;
-            return Objects.equals(this.id, other.id);
-        }
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) return true;
+        if (obj == null || getClass() != obj.getClass()) return false;
+        TipoObjeto other = (TipoObjeto) obj;
+        return Objects.equals(id, other.id);
+    }
 }

@@ -6,7 +6,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
-
 import java.io.Serializable;
 import java.util.Date;
 
@@ -16,28 +15,33 @@ import java.util.Date;
 @AllArgsConstructor
 @ToString
 public class Cliente implements Serializable {
+
         @Id
         @GeneratedValue(strategy = GenerationType.IDENTITY)
         private Integer id;
 
-        @Column(columnDefinition = "TEXT")
+        @Lob
+        @Column(nullable = false)
+        private String razonSocial;
 
-        String razonSocial;
-        int estado;
+        @Column(nullable = false)
+        private int estado;
 
-        @Column(columnDefinition = "TEXT")
-        String letra;
+        @Lob
+        private String letra;
 
-        @Column(columnDefinition = "TEXT")
-        String contacto;
+        @Lob
+        private String contacto;
 
-        @Column(columnDefinition = "TEXT")
-        String celular;
-        @Column(columnDefinition = "TEXT")
-        String mail;
+        @Lob
+        private String celular;
 
-        Date fechaInicio;
-        Date fechaNacimiento;
+        @Lob
+        private String mail;
 
+        @Temporal(TemporalType.DATE)
+        private Date fechaInicio;
 
+        @Temporal(TemporalType.DATE)
+        private Date fechaNacimiento;
 }

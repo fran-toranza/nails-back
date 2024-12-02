@@ -4,11 +4,13 @@ import jakarta.persistence.*;
 import jsges.nails.domain.organizacion.Cliente;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import lombok.ToString;
 import java.sql.Timestamp;
 
 @Entity
 @Data
+@NoArgsConstructor
 @AllArgsConstructor
 @ToString
 public class Servicio {
@@ -25,12 +27,4 @@ public class Servicio {
         private Timestamp fechaRegistro;
         private Timestamp fechaRealizacion;
         private double total;
-
-
-    public Servicio() {
-
-    }
-
-
-
 }
