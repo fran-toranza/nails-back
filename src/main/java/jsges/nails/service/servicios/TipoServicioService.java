@@ -42,7 +42,7 @@ public class TipoServicioService implements ITipoServicioService {
     @Override
     public TipoServicio newModel(TipoServicioDTO modelDTO) {
         TipoServicio model =  new TipoServicio();
-        model.setDenominacion(modelDTO.denominacion);
+        model.setDenominacion(modelDTO.getDenominacion());
         return guardar(model);
     }
 

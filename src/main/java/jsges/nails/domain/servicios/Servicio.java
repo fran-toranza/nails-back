@@ -27,4 +27,5 @@ public class Servicio {
         private Timestamp fechaRegistro;
         private Timestamp fechaRealizacion;
         private double total;
+        private String denominacion;
 }

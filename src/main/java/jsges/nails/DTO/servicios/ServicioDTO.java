@@ -16,6 +16,8 @@ public class ServicioDTO {
     private Set<ItemServicioDTO> listaItems = new HashSet<>();
     private Double total;
     private String clienteRazonSocial;
+    private String denominacion;
+
 
     public ServicioDTO() {
     }
@@ -84,4 +86,7 @@ public class ServicioDTO {
     public void setClienteRazonSocial(String clienteRazonSocial) {
         this.clienteRazonSocial = clienteRazonSocial;
     }
+    
+    
+
 }

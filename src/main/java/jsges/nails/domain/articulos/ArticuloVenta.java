@@ -1,6 +1,7 @@
 package jsges.nails.domain.articulos;
 
 import jakarta.persistence.*;
+import jsges.nails.domain.TipoObjeto;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -16,7 +17,7 @@ import jakarta.validation.constraints.Max;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString(exclude = "linea")
-public class ArticuloVenta {
+public class ArticuloVenta extends TipoObjeto {
 
         // Constante para representar el estado eliminado
         public static final int ESTADO_ELIMINADO = 1;

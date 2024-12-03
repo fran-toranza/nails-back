@@ -32,6 +32,6 @@ public class Linea extends TipoObjeto {
     }
 
     public Linea(LineaDTO model) {
-        this.denominacion = model.denominacion;
+        this.denominacion = model.getDenominacion();
     }
 }

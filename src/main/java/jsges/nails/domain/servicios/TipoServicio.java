@@ -11,5 +11,4 @@ import lombok.ToString;
 @NoArgsConstructor
 @ToString
 public class TipoServicio extends TipoObjeto {
-    // Add fields and methods as needed
 }
