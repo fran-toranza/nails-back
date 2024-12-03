@@ -56,7 +56,7 @@ public class LineaController {
 
     @PostMapping("/linea")
     public  ResponseEntity<Linea> agregar(@RequestBody LineaDTO model){
-        List<Linea> list = modelService.buscar(model.denominacion);
+        List<Linea> list = modelService.buscar(model.getDenominacion());
         if (!list.isEmpty()){
             return ResponseEntity.status(HttpStatus.CONFLICT).build();
         }
@@ -71,7 +71,7 @@ public class LineaController {
             throw new RecursoNoEncontradoExcepcion("El id recibido no existe: " + id);
         }
 
-        model.asEliminado();
+        model.markAsEliminado();
         modelService.guardar(model);
         return ResponseEntity.ok(model);
     }
@@ -89,11 +89,11 @@ public class LineaController {
     @PutMapping("/linea/{id}")
     public ResponseEntity<Linea> actualizar(@PathVariable Integer id,
                                             @RequestBody LineaDTO modelRecibido){
-        Linea model = modelService.buscarPorId(modelRecibido.id);
+        Linea model = modelService.buscarPorId(modelRecibido.getId());
         if (model == null){
             throw new RecursoNoEncontradoExcepcion("El id recibido no existe: " + id);
         }
-        model.setDenominacion(modelRecibido.denominacion);
+        model.setDenominacion(modelRecibido.getDenominacion());
         modelService.guardar(model);
         return ResponseEntity.ok(model);
     }

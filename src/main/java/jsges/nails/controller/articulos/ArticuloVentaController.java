@@ -58,10 +58,10 @@ public class ArticuloVentaController {
     public ArticuloVenta agregar(@RequestBody ArticuloVentaDTO model){
         logger.info("entra" );
 
-        Integer idLinea = model.linea;
+        Integer idLinea = model.getLinea();
 
         ArticuloVenta newModel =  new ArticuloVenta();
-        newModel.setDenominacion(model.denominacion);
+        newModel.setDenominacion(model.getDenominacion());
         newModel.setLinea(lineaService.buscarPorId(idLinea));
 
         ArticuloVenta modelSave= modelService.guardar(newModel);
@@ -76,7 +76,7 @@ public class ArticuloVentaController {
             throw new RecursoNoEncontradoExcepcion("El id recibido no existe: " + id);
         }
 
-        model.asEliminado();
+        model.markAsDeleted();
         modelService.guardar(model);
         return ResponseEntity.ok(model);
     }
@@ -101,8 +101,8 @@ public class ArticuloVentaController {
             throw new RecursoNoEncontradoExcepcion("El id recibido no existe: " + id);
         }
         logger.info("articulo " +model);
-        model.setDenominacion(modelRecibido.denominacion);
-        model.setLinea(lineaService.buscarPorId(modelRecibido.linea));
+        model.setDenominacion(modelRecibido.getDenominacion());
+        model.setLinea(lineaService.buscarPorId(modelRecibido.getLinea()));
         modelService.guardar(model);
         return ResponseEntity.ok(model);
     }

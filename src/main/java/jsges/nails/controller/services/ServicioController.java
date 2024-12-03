@@ -86,16 +86,16 @@ public class ServicioController {
     @PostMapping("/servicios")
     public Servicio agregar(@RequestBody ServicioDTO model){
 
-        Integer idCliente = model.cliente;
+        Integer idCliente = model.getCliente();
 
         Servicio newModel =  new Servicio();
         newModel.setCliente(clienteService.buscarPorId(idCliente));
-        newModel.setFechaRegistro(model.fechaDocumento);
-        newModel.setFechaRealizacion(model.fechaDocumento);
+        newModel.setFechaRegistro(model.getFechaDocumento());
+        newModel.setFechaRealizacion(model.getFechaDocumento());
         newModel.setEstado(0);
 
         Servicio servicioGuardado= modelService.guardar(newModel);
-        for (ItemServicioDTO elemento : model.listaItems) {
+        for (ItemServicioDTO elemento : model.getListaItems()) {
             double precio = elemento.getPrecio();
             logger.info("entra for");
 
