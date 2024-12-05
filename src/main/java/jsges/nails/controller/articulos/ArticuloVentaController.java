@@ -31,27 +31,19 @@ public class ArticuloVentaController {
     }
 
     @GetMapping({"/articulos"})
-    public List<ArticuloVentaDTO> getAll() {
-        logger.info("enta en  traer todas los articulos");
-        List<ArticuloVenta> list = modelService.listar();
-        List<ArticuloVentaDTO> listadoDTO    =  new ArrayList<>();
-        list.forEach((model) -> {
-            listadoDTO.add(new ArticuloVentaDTO(model));
-        });
-        return listadoDTO;
-    }
+public List<ArticuloVenta> getAll() {
+    logger.info("traer todos los articulos");
+    return modelService.listar();
+}
 
-    @GetMapping({"/articulosPageQuery"})
-    public ResponseEntity<Page<ArticuloVentaDTO>> getItems(@RequestParam(defaultValue = "") String consulta, @RequestParam(defaultValue = "0") int page,
-                                                        @RequestParam(defaultValue = "${max_page}") int size) {
-        List<ArticuloVenta> listado = modelService.listar(consulta);
-        List<ArticuloVentaDTO> listadoDTO    =  new ArrayList<>();
-        listado.forEach((model) -> {
-            listadoDTO.add(new ArticuloVentaDTO(model));
-        });
-        Page<ArticuloVentaDTO> bookPage = modelService.findPaginated(PageRequest.of(page, size),listadoDTO);
-        return ResponseEntity.ok().body(bookPage);
-    }
+@GetMapping({"/articulosPageQuery"})
+public ResponseEntity<Page<ArticuloVentaDTO>> getItems(@RequestParam(defaultValue = "") String consulta,
+        @RequestParam(defaultValue = "0") int page,
+        @RequestParam(defaultValue = "${max_page}") int size) {
+    ResponseEntity<List<ArticuloVentaDTO>> listadoDTO = (ResponseEntity<List<ArticuloVentaDTO>>) modelService.listar(consulta);
+
+    return modelService.buscarPagina(PageRequest.of(page, size), listadoDTO.getBody());
+}
 
 
     @PostMapping("/articulos")

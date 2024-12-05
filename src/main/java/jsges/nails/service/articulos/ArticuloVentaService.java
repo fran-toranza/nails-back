@@ -10,6 +10,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import java.util.Collections;
 import java.util.List;
@@ -19,7 +20,7 @@ import java.util.List;
 public class ArticuloVentaService implements IArticuloVentaService{
 
     private final ArticuloVentaRepository modelRepository;
-//constructor de la clase ArticuloVenta
+
     public ArticuloVentaService(ArticuloVentaRepository modelRepository) {
         this.modelRepository = modelRepository;
     }
@@ -30,6 +31,7 @@ public class ArticuloVentaService implements IArticuloVentaService{
     public List<ArticuloVenta> listar() {
         List<ArticuloVenta> result = modelRepository.buscarNoEliminados();
         return result != null ? result : Collections.emptyList();
+
     }
 
     @Override
@@ -77,6 +79,18 @@ public class ArticuloVentaService implements IArticuloVentaService{
         return bookPage;
     }
 
+    @Override
+    public ResponseEntity<Page<ArticuloVentaDTO>> buscarPagina(Pageable pageable, List<ArticuloVentaDTO> listado) {
+        int pageSize = pageable.getPageSize();
+        int currentPage = pageable.getPageNumber();
+        int startItem = currentPage * pageSize;
+
+        List<ArticuloVentaDTO> pageContent = (startItem >= listado.size())
+                ? Collections.emptyList()
+                : listado.subList(startItem, Math.min(startItem + pageSize, listado.size()));
+
+        return ResponseEntity.ok(new PageImpl<>(pageContent, pageable, listado.size()));
+    }
 
 
 }
