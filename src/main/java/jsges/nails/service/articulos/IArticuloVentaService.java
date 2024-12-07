@@ -10,20 +10,16 @@ import java.util.List;
 
 public interface IArticuloVentaService {
 
-    public List<ArticuloVenta> listar();
 
-    public ArticuloVenta buscarPorId(Integer id);
+    public ResponseEntity<List<ArticuloVentaDTO>> listarNoEliminados(String consulta);
 
-    public ArticuloVenta guardar(ArticuloVenta model);
+    public ResponseEntity<Page<ArticuloVentaDTO>> listar(Pageable pageable);
 
-    public void eliminar(ArticuloVenta model);
+    public ResponseEntity<ArticuloVentaDTO> buscar(Integer id);
 
-    public List<ArticuloVenta> listar(String consulta);
+    public ResponseEntity<ArticuloVentaDTO> guardar(ArticuloVentaDTO model);
 
-    public Page<ArticuloVenta> getArticulos(Pageable pageable);
-
-    public Page<ArticuloVentaDTO> findPaginated(Pageable pageable, List<ArticuloVentaDTO> list);
+    public ResponseEntity<ArticuloVentaDTO> eliminar(int id);
 
     public ResponseEntity<Page<ArticuloVentaDTO>> buscarPagina(Pageable pageable, List<ArticuloVentaDTO> listado) ;
-
-    }
+    public  ResponseEntity<ArticuloVentaDTO> actualizar(ArticuloVentaDTO model, Integer id) ; }
