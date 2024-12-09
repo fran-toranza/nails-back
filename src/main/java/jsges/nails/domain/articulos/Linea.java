@@ -15,23 +15,11 @@ import lombok.ToString;
 @ToString
 public class Linea extends TipoObjeto {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
-
-    @Lob
-    private String denominacion;
-
-    private int estado;
-
-    @Lob
-    private String observacion;
-
     public Linea(String nombre) {
-        this.denominacion = nombre;
+        this.setDenominacion(nombre);
     }
 
     public Linea(LineaDTO model) {
-        this.denominacion = model.getDenominacion();
+        this.setDenominacion(model.getDenominacion());
     }
 }

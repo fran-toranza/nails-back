@@ -13,13 +13,8 @@ import java.sql.Timestamp;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
-public class Servicio {
+public class Servicio extends TipoServicio {
 
-        @Id
-        @GeneratedValue(strategy = GenerationType.IDENTITY)
-        private Integer id;
-
-        private int estado;
 
         @ManyToOne(cascade = CascadeType.ALL)
         private Cliente cliente;

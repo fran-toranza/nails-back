@@ -1,8 +1,7 @@
 package jsges.nails.controller.organizacion;
 
 import jsges.nails.DTO.Organizacion.ClienteDTO;
-import jsges.nails.DTO.articulos.LineaDTO;
-import jsges.nails.domain.articulos.Linea;
+
 import jsges.nails.domain.organizacion.Cliente;
 import jsges.nails.excepcion.RecursoNoEncontradoExcepcion;
 import jsges.nails.service.organizacion.IClienteService;

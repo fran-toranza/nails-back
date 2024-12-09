@@ -10,13 +10,7 @@ import java.util.Objects;
 @Data
 @AllArgsConstructor
 @ToString
-public class ItemServicio {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
-
-    private int estado;
+public class ItemServicio extends TipoServicio {
 
     @Column(columnDefinition = "TEXT")
     private String observacion;
@@ -30,6 +24,7 @@ public class ItemServicio {
 
     private Double precio;
 
+
     public void asEliminado() {
         this.setEstado(1);
     }
@@ -39,12 +34,12 @@ public class ItemServicio {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         ItemServicio that = (ItemServicio) o;
-        return estado == that.estado && Objects.equals(id, that.id) && Objects.equals(observacion, that.observacion) && Objects.equals(tipoServicio, that.tipoServicio) && Objects.equals(servicio, that.servicio);
+        return this.getEstado() == that.getEstado() && Objects.equals(this.getId(), that.getId()) && Objects.equals(observacion, that.observacion) && Objects.equals(tipoServicio, that.tipoServicio) && Objects.equals(servicio, that.servicio);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, estado, observacion, tipoServicio, servicio);
+        return Objects.hash(this.getId(), this.getEstado(), observacion, tipoServicio, servicio);
     }
 
     public ItemServicio() {

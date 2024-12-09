@@ -18,5 +18,4 @@ public interface LineaRepository extends JpaRepository<Linea, Integer> {
     @Query("SELECT p FROM Linea p WHERE p.estado = 0 AND p.denominacion LIKE :consulta ORDER BY p.denominacion")
     List<Linea> buscarExacto(@Param("consulta") String consulta);
 
-    List<Linea> findByDenominacionContaining(String consulta);
 }

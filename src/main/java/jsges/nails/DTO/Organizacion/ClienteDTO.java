@@ -1,14 +1,14 @@
 package jsges.nails.DTO.Organizacion;
 
+import jsges.nails.DTO.TipoObjetoDTO;
 import jsges.nails.domain.organizacion.Cliente;
 import lombok.Data;
 
 import java.util.Date;
 
 @Data
-public class ClienteDTO {
+public class ClienteDTO  extends TipoObjetoDTO {
 
-    private Integer id;
     private String razonSocial;
     private String letra;
     private String contacto;
@@ -18,7 +18,7 @@ public class ClienteDTO {
     private Date fechaNacimiento;
 
     public ClienteDTO(Cliente model) {
-        this.id = model.getId();
+        this.setId(model.getId());
         this.razonSocial = model.getRazonSocial();
         this.letra = model.getLetra();
         this.contacto = model.getContacto();
@@ -29,14 +29,6 @@ public class ClienteDTO {
     }
 
     public ClienteDTO() {
-    }
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
     }
 
     public String getRazonSocial() {

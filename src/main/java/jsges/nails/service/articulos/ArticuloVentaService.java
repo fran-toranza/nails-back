@@ -3,15 +3,15 @@ package jsges.nails.service.articulos;
 import jsges.nails.DTO.articulos.ArticuloVentaDTO;
 import jsges.nails.domain.articulos.ArticuloVenta;
 import jsges.nails.domain.articulos.Linea;
+import jsges.nails.mappers.articulo.ArticuloMapper;
 import jsges.nails.repository.articulos.ArticuloVentaRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import java.util.Collections;
-import jsges.nails.mappers.articulo.ArticuloMapper;
-
 import java.util.List;
 
 @Service
@@ -19,18 +19,20 @@ public class ArticuloVentaService implements IArticuloVentaService {
 
     private ArticuloVentaRepository modelRepository;
 
+    @Autowired
     private ILineaService lineaService;
 
     @Override
-    public ResponseEntity<List<ArticuloVentaDTO>> listarNoEliminados(String consulta) {
+    public ResponseEntity<List<ArticuloVentaDTO>> listarNoEliminados() {
         List<ArticuloVenta> articulos = modelRepository.buscarNoEliminados();
 
         return ResponseEntity.ok(articulos.stream().map(ArticuloMapper::toDTO).toList());
     }
 
     @Override
-    public ResponseEntity<ArticuloVentaDTO> buscar(Integer id) {
+    public ResponseEntity<ArticuloVentaDTO> buscarPorId(Integer id) {
         ArticuloVenta model = modelRepository.findById(id).orElse(null);
+
         if (model == null) {
             return ResponseEntity.notFound().build();
         }
@@ -64,9 +66,15 @@ public class ArticuloVentaService implements IArticuloVentaService {
         return ResponseEntity.ok(ArticuloMapper.toDTO(model));
     }
 
+    @Override
+    public ResponseEntity<List<ArticuloVentaDTO>> listarNoEliminados(String consulta) {
+        List<ArticuloVenta> articulos = modelRepository.buscarNoEliminados(consulta);
+
+        return ResponseEntity.ok(articulos.stream().map(ArticuloMapper::toDTO).toList());
+    }
 
     @Override
-    public ResponseEntity<Page<ArticuloVentaDTO>> listar(Pageable pageable) {
+    public ResponseEntity<Page<ArticuloVentaDTO>> listarPaginado(Pageable pageable) {
         Page<ArticuloVenta> articulos = modelRepository.findAll(pageable);
 
         return ResponseEntity.ok(articulos.map(ArticuloMapper::toDTO));
@@ -104,7 +112,7 @@ public class ArticuloVentaService implements IArticuloVentaService {
         if (articuloExistente == null) {
             return ResponseEntity.notFound().build();
         }
-        Linea linea = (Linea) lineaService.buscarPorId(model.getLinea());
+        Linea linea = lineaService.buscarPorId(model.getLinea());
 
         if (linea == null) {
             return ResponseEntity.badRequest().build();

@@ -1,8 +1,5 @@
 package jsges.nails.service.servicios;
-import jsges.nails.DTO.articulos.ArticuloVentaDTO;
 import jsges.nails.DTO.servicios.ServicioDTO;
-import jsges.nails.domain.articulos.ArticuloVenta;
-import jsges.nails.domain.servicios.ItemServicio;
 import jsges.nails.domain.servicios.Servicio;
 import jsges.nails.repository.servicios.ServicioRepository;
 import org.slf4j.Logger;

@@ -1,6 +1,7 @@
 package jsges.nails.domain.organizacion;
 
 import jakarta.persistence.*;
+import jsges.nails.domain.TipoObjeto;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -14,18 +15,14 @@ import java.util.Date;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
-public class Cliente implements Serializable {
+public class Cliente extends TipoObjeto {
 
-        @Id
-        @GeneratedValue(strategy = GenerationType.IDENTITY)
-        private Integer id;
+
 
         @Lob
         @Column(nullable = false)
         private String razonSocial;
 
-        @Column(nullable = false)
-        private int estado;
 
         @Lob
         private String letra;
