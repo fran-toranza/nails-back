@@ -2,8 +2,6 @@ package jsges.nails.service.servicios;
 
 import jsges.nails.domain.servicios.ItemServicio;
 import jsges.nails.repository.servicios.ItemServicioRepository;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -18,7 +16,6 @@ public class ItemServicioService implements IItemServicioService {
 
     @Autowired
     private ItemServicioRepository modelRepository;
-    private final Logger log = LoggerFactory.getLogger(ItemServicioService.class);
     
     @Autowired
     private ItemServicioRepository itemServicioRepository;

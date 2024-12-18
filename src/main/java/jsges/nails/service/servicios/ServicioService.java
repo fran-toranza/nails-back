@@ -1,6 +1,5 @@
 package jsges.nails.service.servicios;
 
-import jsges.nails.DTO.Organizacion.ClienteDTO;
 import jsges.nails.DTO.servicios.ItemServicioDTO;
 import jsges.nails.DTO.servicios.ServicioDTO;
 import jsges.nails.DTO.servicios.TipoServicioDTO;
@@ -154,26 +153,6 @@ public class ServicioService implements IServicioService {
 
         ItemServicio item = new ItemServicio(servicio, tipoServicio, itemDTO.getPrecio(), itemDTO.getObservacion());
         itemServicioService.guardar(item);
-    }
-
-    // Asume que tienes métodos para convertir ClienteDTO a Cliente, TipoServicioDTO a TipoServicio, etc.
-    // Como la lógica debería estar idealmente en sus servicios, aquí se simplifica.
-    // Podrías también inyectar repositorios si fuese necesario.
-    private Cliente clienteDtoToEntity(ClienteDTO dto) {
-        // Este método ya no debería usarse si seguimos la solución correcta
-        Cliente cliente = new Cliente();
-        cliente.setId(dto.getId());
-        cliente.setCodigo(dto.getCodigo());
-        cliente.setDenominacion(dto.getDenominacion());
-        cliente.setEstado(dto.getEstado());
-        cliente.setDetalle(dto.getDetalle());
-
-        cliente.setRazonSocial(dto.getRazonSocial());
-        cliente.setCelular(dto.getCelular());
-        cliente.setMail(dto.getMail());
-        cliente.setFechaInicio(dto.getFechaInicio());
-        cliente.setFechaNacimiento(dto.getFechaNacimiento());
-        return cliente;
     }
 
     private TipoServicio tipoServicioDtoToEntity(TipoServicioDTO dto) {
