@@ -17,14 +17,9 @@ public class ItemServicioService implements IItemServicioService {
     @Autowired
     private ItemServicioRepository modelRepository;
     
-    @Autowired
-    private ItemServicioRepository itemServicioRepository;
-
     @Override
     public List<ItemServicio> listar() {
-        System.out.println("2"); // Debug: Verificar el contenido
         List<ItemServicio> items = modelRepository.findAll();
-        System.out.println("Items desde el repositorio: " + items); // Debug: Verificar el contenido
         return items;
     }
 
@@ -55,6 +50,6 @@ public class ItemServicioService implements IItemServicioService {
 
     @Override
     public void eliminar(Integer id) {
-        itemServicioRepository.deleteById(id);
+        modelRepository.deleteById(id);
     }
 }

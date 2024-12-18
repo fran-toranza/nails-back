@@ -2,7 +2,6 @@ package jsges.nails.service.servicios;
 
 import jsges.nails.DTO.servicios.ItemServicioDTO;
 import jsges.nails.DTO.servicios.ServicioDTO;
-import jsges.nails.DTO.servicios.TipoServicioDTO;
 import jsges.nails.domain.organizacion.Cliente;
 import jsges.nails.domain.servicios.ItemServicio;
 import jsges.nails.domain.servicios.Servicio;
@@ -10,9 +9,13 @@ import jsges.nails.domain.servicios.TipoServicio;
 import jsges.nails.excepcion.RecursoNoEncontradoExcepcion;
 import jsges.nails.repository.organizacion.ClienteRepository;
 import jsges.nails.repository.servicios.ServicioRepository;
+import jsges.nails.repository.servicios.TipoServicioRepository;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
+
+import jakarta.transaction.Transactional;
 
 import java.util.Collections;
 import java.util.List;
@@ -27,10 +30,10 @@ public class ServicioService implements IServicioService {
     private ClienteRepository clienteRepository;
 
     @Autowired
-    private ITipoServicioService tipoServicioService;
+    private IItemServicioService itemServicioService;
 
     @Autowired
-    private IItemServicioService itemServicioService;
+    private TipoServicioRepository tipoServicioRepository;
 
     @Override
     public List<ServicioDTO> listar() {
@@ -47,12 +50,13 @@ public class ServicioService implements IServicioService {
     }
 
     @Override
+    @Transactional
     public ServicioDTO guardar(ServicioDTO dto) {
         // Convertir DTO a Entidad
         Servicio servicio = dtoToEntity(dto);
         // Guardar servicio
         servicio = servicioRepository.save(servicio);
-        
+
         // Guardar items
         if (dto.getListaItems() != null) {
             for (ItemServicioDTO itemDTO : dto.getListaItems()) {
@@ -66,8 +70,8 @@ public class ServicioService implements IServicioService {
 
     @Override
     public ServicioDTO actualizar(Integer id, ServicioDTO dto) {
-        servicioRepository.findById(id).orElseThrow(() ->
-                new RecursoNoEncontradoExcepcion("No se encontró el servicio con id: " + id));
+        servicioRepository.findById(id)
+                .orElseThrow(() -> new RecursoNoEncontradoExcepcion("No se encontró el servicio con id: " + id));
         dto.setId(id);
         Servicio servicio = dtoToEntity(dto);
         servicio = servicioRepository.save(servicio);
@@ -130,7 +134,8 @@ public class ServicioService implements IServicioService {
 
         // **Obtener la entidad Cliente gestionada desde la base de datos**
         Cliente cliente = clienteRepository.findById(dto.getCliente())
-                .orElseThrow(() -> new RecursoNoEncontradoExcepcion("No se encontró el cliente con id: " + dto.getCliente()));
+                .orElseThrow(() -> new RecursoNoEncontradoExcepcion(
+                        "No se encontró el cliente con id: " + dto.getCliente()));
         servicio.setCliente(cliente);
 
         // Fechas y total
@@ -148,20 +153,11 @@ public class ServicioService implements IServicioService {
     }
 
     private void guardarItemServicio(Servicio servicio, ItemServicioDTO itemDTO) {
-        TipoServicioDTO tipoServicioDTO = tipoServicioService.buscarPorId(itemDTO.getTipoServicioId());
-        TipoServicio tipoServicio = tipoServicioDtoToEntity(tipoServicioDTO);
+        TipoServicio tipoServicio = tipoServicioRepository.findById(itemDTO.getTipoServicioId())
+                .orElseThrow(() -> new RecursoNoEncontradoExcepcion(
+                        "TipoServicio no encontrado con id: " + itemDTO.getTipoServicioId()));
 
         ItemServicio item = new ItemServicio(servicio, tipoServicio, itemDTO.getPrecio(), itemDTO.getObservacion());
         itemServicioService.guardar(item);
-    }
-
-    private TipoServicio tipoServicioDtoToEntity(TipoServicioDTO dto) {
-        TipoServicio tipo = new TipoServicio();
-        tipo.setId(dto.getId());
-        tipo.setCodigo(dto.getCodigo());
-        tipo.setDenominacion(dto.getDenominacion());
-        tipo.setEstado(dto.getEstado());
-        tipo.setDetalle(dto.getDetalle());
-        return tipo;
     }
 }
