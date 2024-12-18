@@ -1,19 +1,21 @@
 package jsges.nails.domain.articulos;
 
-import jakarta.persistence.*;
+import jakarta.persistence.Entity;
 import jsges.nails.DTO.articulos.LineaDTO;
 import jsges.nails.domain.TipoObjeto;
-import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
 @Entity
 @Data
-@NoArgsConstructor
-@AllArgsConstructor
-@ToString
+@EqualsAndHashCode(callSuper = true)
+@ToString(callSuper = true)
 public class Linea extends TipoObjeto {
+
+    public Linea() {
+        super();
+    }
 
     public Linea(String nombre) {
         this.setDenominacion(nombre);

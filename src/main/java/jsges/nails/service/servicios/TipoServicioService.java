@@ -1,14 +1,11 @@
 package jsges.nails.service.servicios;
+
 import jsges.nails.DTO.servicios.TipoServicioDTO;
 import jsges.nails.domain.servicios.TipoServicio;
+import jsges.nails.excepcion.RecursoNoEncontradoExcepcion;
 import jsges.nails.repository.servicios.TipoServicioRepository;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
 
 import java.util.Collections;
@@ -19,73 +16,79 @@ public class TipoServicioService implements ITipoServicioService {
 
     @Autowired
     private TipoServicioRepository modelRepository;
-    private static final Logger logger = LoggerFactory.getLogger(TipoServicioService.class);
 
     @Override
-    public List<TipoServicio> listar() {
-        return modelRepository.buscarNoEliminados();
+    public List<TipoServicioDTO> listar() {
+        return modelRepository.buscarNoEliminados().stream().map(TipoServicioDTO::new).toList();
     }
 
     @Override
-    public TipoServicio buscarPorId(Integer id) {
-        return modelRepository.findById(id).orElse(null);
-    }
-
-
-
-    @Override
-    public TipoServicio guardar(TipoServicio model) {
-        return modelRepository.save(model);
-    }
-
-
-    @Override
-    public TipoServicio newModel(TipoServicioDTO modelDTO) {
-        TipoServicio model =  new TipoServicio();
-        model.setDenominacion(modelDTO.getDenominacion());
-        return guardar(model);
-    }
-
-
-    @Override
-    public void eliminar(TipoServicio model) {
-
-        modelRepository.save(model);
+    public TipoServicioDTO buscarPorId(Integer id) {
+        TipoServicio tipo = modelRepository.findById(id).orElseThrow(
+                () -> new RecursoNoEncontradoExcepcion("El id recibido no existe: " + id));
+        return new TipoServicioDTO(tipo);
     }
 
     @Override
-    public List<TipoServicio> listar(String consulta) {
-        //logger.info("service " +consulta);
-        return modelRepository.buscarNoEliminados(consulta);
+    public TipoServicioDTO guardar(TipoServicioDTO dto) {
+        TipoServicio tipo = dtoToEntity(dto);
+        tipo = modelRepository.save(tipo);
+        return new TipoServicioDTO(tipo);
     }
 
     @Override
-    public Page<TipoServicio> getTiposServicios(Pageable pageable) {
-        return  modelRepository.findAll(pageable);
+    public TipoServicioDTO eliminar(Integer id) {
+        TipoServicio tipo = modelRepository.findById(id).orElseThrow(
+                () -> new RecursoNoEncontradoExcepcion("El id recibido no existe: " + id));
+        tipo.markAsEliminado();
+        tipo = modelRepository.save(tipo);
+        return new TipoServicioDTO(tipo);
     }
-
-    public List<TipoServicio> buscar(String consulta) {
-        return modelRepository.buscarExacto(consulta);
-    }
-
 
     @Override
-    public Page<TipoServicio> findPaginated(Pageable pageable, List<TipoServicio>lineas) {
+    public TipoServicioDTO actualizar(TipoServicioDTO dto) {
+        modelRepository.findById(dto.getId()).orElseThrow(
+                () -> new RecursoNoEncontradoExcepcion("El id recibido no existe: " + dto.getId()));
+        TipoServicio tipo = dtoToEntity(dto);
+        tipo = modelRepository.save(tipo);
+        return new TipoServicioDTO(tipo);
+    }
+
+    @Override
+    public List<TipoServicioDTO> listar(String consulta) {
+        return modelRepository.buscarNoEliminados(consulta).stream().map(TipoServicioDTO::new).toList();
+    }
+
+    @Override
+    public Page<TipoServicioDTO> listarPaginado(String consulta, Pageable pageable) {
+        List<TipoServicioDTO> tipos = listar(consulta);
         int pageSize = pageable.getPageSize();
         int currentPage = pageable.getPageNumber();
         int startItem = currentPage * pageSize;
-        List<TipoServicio> list;
-        if (lineas.size() < startItem) {
+        List<TipoServicioDTO> list;
+
+        if (tipos.size() < startItem) {
             list = Collections.emptyList();
         } else {
-            int toIndex = Math.min(startItem + pageSize, lineas.size());
-            list = lineas.subList(startItem, toIndex);
+            int toIndex = Math.min(startItem + pageSize, tipos.size());
+            list = tipos.subList(startItem, toIndex);
         }
 
-        Page<TipoServicio> bookPage
-                = new PageImpl<TipoServicio>(list, PageRequest.of(currentPage, pageSize), lineas.size());
-
-        return bookPage;
+        return new PageImpl<>(list, PageRequest.of(currentPage, pageSize), tipos.size());
     }
 
+    @Override
+    public List<TipoServicioDTO> buscar(String consulta) {
+        return modelRepository.buscarExacto(consulta).stream().map(TipoServicioDTO::new).toList();
+    }
+
+    private TipoServicio dtoToEntity(TipoServicioDTO dto) {
+        TipoServicio tipo = new TipoServicio();
+        tipo.setId(dto.getId());
+        tipo.setCodigo(dto.getCodigo());
+        tipo.setDenominacion(dto.getDenominacion());
+        tipo.setEstado(dto.getEstado());
+        tipo.setDetalle(dto.getDetalle());
+        return tipo;
+    }
 }

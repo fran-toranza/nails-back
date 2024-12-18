@@ -2,25 +2,28 @@ package jsges.nails.domain.servicios;
 
 import jakarta.persistence.*;
 import jsges.nails.domain.organizacion.Cliente;
-import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
+
 import java.sql.Timestamp;
 
 @Entity
 @Data
 @NoArgsConstructor
-@AllArgsConstructor
-@ToString
+@ToString(callSuper = true)
+@EqualsAndHashCode(callSuper = true)
+@DiscriminatorValue("Servicio")
 public class Servicio extends TipoServicio {
 
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "cliente_id", nullable = false)
+    private Cliente cliente;
 
-        @ManyToOne(cascade = CascadeType.ALL)
-        private Cliente cliente;
+    private Timestamp fechaRegistro;
 
-        private Timestamp fechaRegistro;
-        private Timestamp fechaRealizacion;
-        private double total;
-        private String denominacion;
+    private Timestamp fechaRealizacion;
+
+    private Double total;
 }

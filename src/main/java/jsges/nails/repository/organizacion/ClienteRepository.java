@@ -9,9 +9,9 @@ import java.util.List;
 
 public interface ClienteRepository extends JpaRepository<Cliente, Integer> {
 
-    @Query("SELECT p FROM Cliente p WHERE p.estado = 0 ORDER BY p.razonSocial")
+    @Query("SELECT p FROM Cliente p WHERE p.estado = 0 ORDER BY p.nombre")
     List<Cliente> buscarNoEliminados();
 
-    @Query("SELECT p FROM Cliente p WHERE p.estado = 0 AND p.razonSocial LIKE %:consulta% ORDER BY p.razonSocial")
+    @Query("SELECT p FROM Cliente p WHERE p.estado = 0 AND p.nombre LIKE %:consulta% ORDER BY p.nombre")
     List<Cliente> buscarNoEliminados(@Param("consulta") String consulta);
 }

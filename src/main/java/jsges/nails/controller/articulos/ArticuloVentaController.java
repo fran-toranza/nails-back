@@ -3,6 +3,7 @@ package jsges.nails.controller.articulos;
 import jsges.nails.DTO.articulos.ArticuloVentaDTO;
 import jsges.nails.service.articulos.IArticuloVentaService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.ResponseEntity;
@@ -14,10 +15,11 @@ import java.util.List;
 @CrossOrigin(value = "${path_cross}")
 public class ArticuloVentaController {
 
+    @Autowired
     private IArticuloVentaService modelService;
 
-    public ArticuloVentaController() {
-    }
+    @Value("${page_max}")
+    private int pageMax;
 
     @GetMapping({ "/articulos" })
     public ResponseEntity<List<ArticuloVentaDTO>> getAll() {
@@ -26,10 +28,9 @@ public class ArticuloVentaController {
 
     @GetMapping({ "/articulosPageQuery" })
     public ResponseEntity<Page<ArticuloVentaDTO>> getItems(@RequestParam(defaultValue = "") String consulta,
-                                                           @RequestParam(defaultValue = "0") int page,
-                                                           @RequestParam(defaultValue = "${max_page}") int size) {
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "${page_max}") int size) {
         ResponseEntity<List<ArticuloVentaDTO>> listadoDTO = modelService.listarNoEliminados(consulta);
-
         return modelService.buscarPagina(PageRequest.of(page, size), listadoDTO.getBody());
     }
 
@@ -50,7 +51,7 @@ public class ArticuloVentaController {
 
     @PutMapping("/articulos/{id}")
     public ResponseEntity<ArticuloVentaDTO> actualizar(@PathVariable Integer id,
-                                                       @RequestBody ArticuloVentaDTO modelRecibido) {
+            @RequestBody ArticuloVentaDTO modelRecibido) {
         return modelService.actualizar(modelRecibido, id);
     }
 }

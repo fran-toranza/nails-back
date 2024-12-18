@@ -9,7 +9,10 @@ public class ArticuloVentaDTO extends TipoObjetoDTO {
 
     public ArticuloVentaDTO(ArticuloVenta model) {
         this.setId(model.getId());
+        this.setCodigo(model.getCodigo());
         this.setDenominacion(model.getDenominacion());
+        this.setEstado(model.getEstado());
+        this.setDetalle(model.getDetalle());
         this.linea = model.getLinea().getId();
     }
 

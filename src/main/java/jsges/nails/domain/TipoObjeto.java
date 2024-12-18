@@ -1,31 +1,36 @@
 package jsges.nails.domain;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Size;
 import lombok.Data;
-import lombok.NoArgsConstructor;
+
 import java.io.Serializable;
 import java.util.Objects;
 
-@Entity
+
+@MappedSuperclass
 @Data
-@NoArgsConstructor
-@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 public class TipoObjeto implements Serializable {
+
+    public static final int ESTADO_ACTIVO = 0;
+    public static final int ESTADO_ELIMINADO = 1;
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "tipo_objeto_id_seq")
     @SequenceGenerator(name = "tipo_objeto_id_seq", sequenceName = "tipo_objeto_id_seq", allocationSize = 1)
     private Integer id;
 
-    private int codigo;
+    private int codigo; 
 
-    @Lob
+    @Column(length = 255)
+    @Size(max = 255, message = "La denominación no puede exceder los 255 caracteres.")
     private String denominacion;
 
-    private int estado;
-
-    @Lob
+    @Column(length = 500)
+    @Size(max = 500, message = "El detalle no puede exceder los 500 caracteres.")
     private String detalle;
+
+    private int estado = ESTADO_ACTIVO;
 
     public void markAsEliminado() {
         this.estado = 1;
@@ -38,8 +43,10 @@ public class TipoObjeto implements Serializable {
 
     @Override
     public boolean equals(Object obj) {
-        if (this == obj) return true;
-        if (obj == null || getClass() != obj.getClass()) return false;
+        if (this == obj)
+            return true;
+        if (obj == null || getClass() != obj.getClass())
+            return false;
         TipoObjeto other = (TipoObjeto) obj;
         return Objects.equals(id, other.id);
     }

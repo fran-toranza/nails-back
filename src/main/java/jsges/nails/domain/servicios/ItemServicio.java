@@ -1,55 +1,34 @@
 package jsges.nails.domain.servicios;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.ToString;
-import java.util.Objects;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 
 @Entity
 @Data
-@AllArgsConstructor
-@ToString
+@NoArgsConstructor
+@EqualsAndHashCode(callSuper = true)
+@DiscriminatorValue("ItemServicio")
 public class ItemServicio extends TipoServicio {
 
     @Column(columnDefinition = "TEXT")
     private String observacion;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
+    @JoinColumn(name = "tipo_servicio_id", nullable = false)
     private TipoServicio tipoServicio;
 
-    @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn
+    @ManyToOne
+    @JoinColumn(name = "servicio_id", nullable = false)
     private Servicio servicio;
 
     private Double precio;
 
-
-    public void asEliminado() {
-        this.setEstado(1);
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        ItemServicio that = (ItemServicio) o;
-        return this.getEstado() == that.getEstado() && Objects.equals(this.getId(), that.getId()) && Objects.equals(observacion, that.observacion) && Objects.equals(tipoServicio, that.tipoServicio) && Objects.equals(servicio, that.servicio);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(this.getId(), this.getEstado(), observacion, tipoServicio, servicio);
-    }
-
-    public ItemServicio() {
-
-    }
-
-    public ItemServicio(Servicio servicio ,TipoServicio tipo, Double precio,String observacion) {
+    public ItemServicio(Servicio servicio, TipoServicio tipoServicio, Double precio, String observacion) {
         this.servicio = servicio;
-        this.tipoServicio = tipo;
+        this.tipoServicio = tipoServicio;
         this.precio = precio;
-        this.observacion=observacion;
+        this.observacion = observacion;
     }
 }

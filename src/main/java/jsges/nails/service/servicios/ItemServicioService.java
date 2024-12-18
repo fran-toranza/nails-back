@@ -1,9 +1,7 @@
 package jsges.nails.service.servicios;
 
 import jsges.nails.domain.servicios.ItemServicio;
-import jsges.nails.domain.servicios.Servicio;
 import jsges.nails.repository.servicios.ItemServicioRepository;
-import jsges.nails.repository.servicios.ServicioRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -18,10 +16,12 @@ import java.util.List;
 @Service
 public class ItemServicioService implements IItemServicioService {
 
-
     @Autowired
     private ItemServicioRepository modelRepository;
     private final Logger log = LoggerFactory.getLogger(ItemServicioService.class);
+    
+    @Autowired
+    private ItemServicioRepository itemServicioRepository;
 
     @Override
     public List<ItemServicio> listar() {
@@ -55,4 +55,9 @@ public class ItemServicioService implements IItemServicioService {
 
         return modelRepository.buscarPorServicio(idServicio);
     };
+
+    @Override
+    public void eliminar(Integer id) {
+        itemServicioRepository.deleteById(id);
+    }
 }

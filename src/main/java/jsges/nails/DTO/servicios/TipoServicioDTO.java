@@ -1,33 +1,22 @@
 package jsges.nails.DTO.servicios;
 
 import jsges.nails.DTO.TipoObjetoDTO;
+import jsges.nails.domain.servicios.TipoServicio;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 
+@Data
+@EqualsAndHashCode(callSuper = true)
 public class TipoServicioDTO extends TipoObjetoDTO {
-
-    private Integer id;
-    private String denominacion;
 
     public TipoServicioDTO() {
     }
 
-    public TipoServicioDTO(Integer id, String denominacion) {
-        this.id = id;
-        this.denominacion = denominacion;
-    }
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public String getDenominacion() {
-        return denominacion;
-    }
-
-    public void setDenominacion(String denominacion) {
-        this.denominacion = denominacion;
+    public TipoServicioDTO(TipoServicio model) {
+        this.setId(model.getId());
+        this.setCodigo(model.getCodigo());
+        this.setDenominacion(model.getDenominacion());
+        this.setEstado(model.getEstado());
+        this.setDetalle(model.getDetalle());
     }
 }

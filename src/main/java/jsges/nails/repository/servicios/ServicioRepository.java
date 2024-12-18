@@ -15,6 +15,6 @@ public interface ServicioRepository extends JpaRepository<Servicio, Integer> {
     @Query("SELECT p FROM Servicio p WHERE p.estado = 0")
     List<Servicio> buscarExacto();
 
-    @Query("SELECT p FROM Servicio p WHERE p.estado = 0 AND p.denominacion LIKE %:consulta% ORDER BY p.denominacion")
+    @Query("SELECT p FROM Servicio p JOIN FETCH p.cliente WHERE p.estado = 0 AND p.cliente.nombre LIKE %:consulta% ORDER BY p.cliente.nombre")
     List<Servicio> buscarNoEliminados(@Param("consulta") String consulta);
 }

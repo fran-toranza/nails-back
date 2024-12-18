@@ -2,63 +2,32 @@ package jsges.nails.DTO.servicios;
 
 import jsges.nails.domain.servicios.ItemServicio;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 @Data
-public class ItemServicioDTO {
-    private Integer id;
+@EqualsAndHashCode(callSuper = true)
+public class ItemServicioDTO extends TipoServicioDTO {
+
+    private String observacion;
     private String tipoServicio;
     private Integer tipoServicioId;
     private Double precio;
-    private String observaciones;
 
-    public ItemServicioDTO(ItemServicio model) {
-        this.observaciones = model.getObservacion();
-        this.precio = model.getPrecio();
-        this.tipoServicio = model.getTipoServicio().getDenominacion();
-        this.tipoServicioId = model.getTipoServicio().getId();
-        this.id = model.getId();
+    public ItemServicioDTO(ItemServicio item) {
+        // Campos de TipoObjeto
+        this.setId(item.getId());
+        this.setCodigo(item.getCodigo());
+        this.setDenominacion(item.getDenominacion());
+        this.setEstado(item.getEstado());
+        this.setDetalle(item.getDetalle());
+
+        // Campos específicos de ItemServicio
+        this.observacion = item.getObservacion();
+        this.tipoServicio = item.getTipoServicio().getDenominacion();
+        this.tipoServicioId = item.getTipoServicio().getId();
+        this.precio = item.getPrecio();
     }
 
     public ItemServicioDTO() {
-    }
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public String getTipoServicio() {
-        return tipoServicio;
-    }
-
-    public void setTipoServicio(String tipoServicio) {
-        this.tipoServicio = tipoServicio;
-    }
-
-    public Integer getTipoServicioId() {
-        return tipoServicioId;
-    }
-
-    public void setTipoServicioId(Integer tipoServicioId) {
-        this.tipoServicioId = tipoServicioId;
-    }
-
-    public Double getPrecio() {
-        return precio;
-    }
-
-    public void setPrecio(Double precio) {
-        this.precio = precio;
-    }
-
-    public String getObservaciones() {
-        return observaciones;
-    }
-
-    public void setObservaciones(String observaciones) {
-        this.observaciones = observaciones;
     }
 }
